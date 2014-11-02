@@ -1,2 +1,6 @@
 /config.php
 /Slim
+/views/js/bootstrap.*
+/views/js/npm.js
+/views/fonts/
+/views/css/bootstrap*
