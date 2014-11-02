@@ -49,3 +49,36 @@ class GithubApiCaller {
 		return $this->callExecute();
 	}
 }
+
+
+class McryptWrapper {
+	private $td;
+	private $key;
+	private $iv;
+
+	public function __construct(){
+		$this->key = APP_SECRET_KEY;
+		$this->td = mcrypt_module_open('des', '', 'ecb', '');
+		$this->key = substr($this->key, 0, mcrypt_enc_get_key_size($this->td));
+		$iv_size = mcrypt_enc_get_iv_size($this->td);
+		$this->iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+	}
+
+	public function encrypt($plain_text){
+		mcrypt_generic_init($this->td, $this->key, $this->iv);
+		$result = mcrypt_generic($this->td, $plain_text);
+		mcrypt_generic_deinit($this->td);
+		return base64_encode($result);
+	}
+
+	public function decrypt($entrypted_text){
+		mcrypt_generic_init($this->td, $this->key, $this->iv);
+		$result = mdecrypt_generic($this->td, base64_decode($entrypted_text));
+		mcrypt_generic_deinit($this->td);
+		return $result;
+	}
+
+	function __destruct(){
+		mcrypt_module_close($this->td);
+	}
+}

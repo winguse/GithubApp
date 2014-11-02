@@ -2,6 +2,7 @@
 require_once 'Slim/Slim.php';
 require_once 'config.php';
 require_once 'libs.php';
+
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim(array(
 	'templates.path' => __FILE__.'/views/',
@@ -11,7 +12,7 @@ $app = new \Slim\Slim(array(
 	'cookies.secure' => true,
 	'cookies.httponly' => true,
 	'cookies.encrypt' => true,
-	'cookies.secret_key' => APP_COOKIE_SECRET,
+	'cookies.secret_key' => APP_SECRET_KEY,
 	'debug' => true,
 	'mode' => 'development'
 ));
@@ -23,12 +24,18 @@ $app->add(new \Slim\Middleware\SessionCookie(array(
 	'secure' => true,
 	'httponly' => true,
 	'name' => APP_NAME,
-	'secret' => APP_COOKIE_SECRET,
+	'secret' => APP_SECRET_KEY,
 	'cipher' => MCRYPT_RIJNDAEL_256,
 	'cipher_mode' => MCRYPT_MODE_CBC
 )));
 
 $app->github = new GithubApiCaller($app->getCookie('access_token'));
+$app->container->singleton('pdo', function () {
+    return new PDO('mysql:dbname='.APP_DB_NAME.';host='.APP_DB_HOST, APP_DB_USER, APP_DB_PASSWORD);
+});
+$app->container->singleton('mcrypt', function () {
+    return new McryptWrapper();
+});
 
 $app->get(
 	'/',
@@ -82,7 +89,8 @@ $app->get(
 $app->get(
 	'/test',
 	function() use ($app) {
-		
+		$str = $app->mcrypt->encrypt('test');
+		echo $str. ' ' . $app->mcrypt->decrypt($str);
 	}
 );
 

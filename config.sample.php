@@ -9,7 +9,7 @@ define('GITHUB_USER_URL', GITHUB_API_BASE_URL.'/user');
 define('APP_NAME','winguse\'s github app');
 define('APP_DOMAIN', 'winguse.com');
 define('APP_BASE_PATH','/app/github/');
-define('APP_COOKIE_SECRET', '');
+define('APP_SECRET_KEY', '');
 define('APP_AUTH_SCOPE', 'repo');
 define('APP_DB_USER', '');
 define('APP_DB_PASSWORD', '');
