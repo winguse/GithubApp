@@ -2,10 +2,11 @@
 require_once 'Slim/Slim.php';
 require_once 'config.php';
 require_once 'libs.php';
+require_once 'models/Major.php';
 
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim(array(
-	'templates.path' => __FILE__.'/views/',
+	'templates.path' => dirname(__FILE__).'/assets/',
 	'cookies.path' => APP_BASE_PATH,
 	'cookies.domain' => APP_DOMAIN,
 	'cookies.lifetime' => '30 days',
@@ -15,6 +16,11 @@ $app = new \Slim\Slim(array(
 	'cookies.secret_key' => APP_SECRET_KEY,
 	'debug' => true,
 	'mode' => 'development'
+));
+
+$app->view->setData(array(
+	'assets_path' => APP_BASE_PATH.'/assets',
+	'site_name' => APP_NAME
 ));
 
 $app->add(new \Slim\Middleware\SessionCookie(array(
@@ -36,14 +42,23 @@ $app->container->singleton('pdo', function () {
 $app->container->singleton('mcrypt', function () {
     return new McryptWrapper();
 });
+$app->container->singleton('majorDao', function () use ($app) {
+    return new MajorDao($app->pdo);
+});
 
 $app->get(
 	'/',
-	function () {
-		global $app;
+	function () use ($app){
 		$username = $app->getCookie('username');
-		echo $username;
-		$app->setCookie('username', 'testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest');
+		$app->render('index.php', array('username' => $username));
+	}
+);
+
+$app->get(
+	'/admin/majors',
+	function () use ($app){
+		// TODO check user authentication
+		$app->render('/admin/majors.php', array('majors' => $app->majorDao->getAll()));
 	}
 );
 
@@ -78,6 +93,7 @@ $app->get(
 				$app->setCookie('access_token', $access_token); // TODO store other information
 				$app->github->setAccessToken($access_token);
 				$userInfo = $app->github->get(GITHUB_USER_URL);
+				
 				print_r($userInfo);
 			}
 		} else {

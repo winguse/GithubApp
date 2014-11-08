@@ -1,6 +1,7 @@
 /config.php
 /Slim
-/views/js/bootstrap.*
-/views/js/npm.js
-/views/fonts/
-/views/css/bootstrap*
+/assets/js/bootstrap.*
+/assets/js/jquery*
+/assets/js/npm.js
+/assets/fonts/
+/assets/css/bootstrap*
