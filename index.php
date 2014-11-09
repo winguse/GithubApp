@@ -96,7 +96,7 @@ $app->group(
 					function($id) use ($app){
 						$major = new Major();
 						$major->id = $id;
-						$majro->name = $app->request->post('name');
+						$major->name = $app->request->post('name');
 						echo json_encode(array('code' => $app->dao->update($major)));
 					}
 				);
