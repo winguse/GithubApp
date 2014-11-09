@@ -2,7 +2,7 @@
 require_once 'Slim/Slim.php';
 require_once 'config.php';
 require_once 'libs.php';
-require_once 'models/Major.php';
+require_once 'models/index.php';
 
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim(array(
@@ -42,6 +42,9 @@ $app->container->singleton('pdo', function () {
 $app->container->singleton('mcrypt', function () {
     return new McryptWrapper();
 });
+$app->container->singleton('dao', function () use ($app) {
+    return new Dao($app->pdo);
+});
 $app->container->singleton('majorDao', function () use ($app) {
     return new MajorDao($app->pdo);
 });
@@ -58,7 +61,15 @@ $app->get(
 	'/admin/majors',
 	function () use ($app){
 		// TODO check user authentication
-		$app->render('/admin/majors.php', array('majors' => $app->majorDao->getAll()));
+		$newMajor = new Major();
+		$newMajor->id = 2;
+		$newMajor->name = 'test';
+		$app->dao->update($newMajor);
+		
+		
+		$filter = new Major();
+		//$filter->id = 1;
+		$app->render('/admin/majors.php', array('majors' => $app->dao->find($filter)));
 	}
 );
 

@@ -12,8 +12,8 @@
       <tbody>
       <?php foreach($majors as $major) {?>
         <tr>
-          <td><?=$major->getId()?></td>
-          <td><?=$major->getName()?></td>
+          <td><?=$major->id?></td>
+          <td><?=$major->name?></td>
         </tr>
       <?php } ?>
       </tbody>
