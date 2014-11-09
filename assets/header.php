@@ -54,3 +54,4 @@
 
     <!-- Begin page content -->
     <div class="container">
+    <?php if(isset($flash['error'])) {?><div class="alert alert-danger" role="alert"><?=$flash['error']?></div> <?php }?>

@@ -1,6 +1,18 @@
 <?php
 require_once 'config.php';
 
+function authenticate($role = ROLE_NONE) {
+    return function () use ($role) {
+    	if($role == ROLE_NONE) return;
+    	$app = \Slim\Slim::getInstance();
+    	if($app->user == null || ($app->user->role & $role) != $role){
+            $app->flash('error', 'Not authenticated');
+            $app->redirect(APP_BASE_PATH);
+    	}
+        
+    };
+};
+
 class GithubApiCaller {
 	private $access_token;
 	private $url;
@@ -10,7 +22,7 @@ class GithubApiCaller {
 		$this->access_token = $access_token;
 	}
 	
-	public function __construct($access_token){
+	public function __construct($access_token = null){
 		$this->setAccessToken($access_token);
 	}
 	

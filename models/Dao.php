@@ -66,7 +66,7 @@ class Dao {
 		return $ret;
 	}
 	
-	public function find($filter_obj){
+	public function find($filter_obj, $condition = '='){
 		$ref = new ReflectionClass($filter_obj);
 		$properties = $ref->getProperties(ReflectionProperty::IS_PUBLIC);
 		$sql = 'SELECT ';
@@ -80,7 +80,7 @@ class Dao {
 			$value = $property->getValue($filter_obj);
 			if($value === NULL) continue;
 			$query_parameters[$property->getName()] = $value;
-			$where .= ' `' . $property->getName() . '` = :' . $property->getName();
+			$where .= ' `' . $property->getName() . '` ' . $condition . ' :' . $property->getName();
 		}
 		$sql .= ' FROM ' . $ref->getName();
 		if($where != '') {
