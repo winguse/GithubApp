@@ -14,3 +14,8 @@ define('APP_AUTH_SCOPE', 'repo');
 define('APP_DB_USER', '');
 define('APP_DB_PASSWORD', '');
 define('APP_DB_NAME', '');
+
+define('ROLE_NONE', 0);
+define('ROLE_ADMIN', 1);
+define('ROLE_STUDENT', 2);
+define('ROLE_TEACHER', 3);
