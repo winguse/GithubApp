@@ -1,9 +1,9 @@
 <?php
 require_once 'config.php';
 
-function authenticate($role = ROLE_NONE) {
+function authenticate($role = PERMISSION_NONE) {
     return function () use ($role) {
-    	if($role == ROLE_NONE) return;
+    	if($role == PERMISSION_NONE) return;
     	$app = \Slim\Slim::getInstance();
     	if($app->user == null || ($app->user->role & $role) != $role){
             $app->flash('error', 'Not authenticated');

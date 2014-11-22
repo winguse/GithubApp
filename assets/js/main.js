@@ -1,6 +1,44 @@
+String.prototype.htmlEncode = function() {
+	return this.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+};
+
 var GITHUB_APP_BASE_PATH = '/app/github';
 
 var github_app = {
+	"profile": function() {
+	    var $message = $("#message");
+	    $message.hide();
+		var majorOptionsHtml = '<option value="null">Please set your major</option>';
+		for (var idx in majors) {
+			var major_id = parseInt(majors[idx].id);
+			var major_name = majors[idx].name;
+			majorOptionsHtml += '<option value="' + major_id + '">' + major_name.htmlEncode() + '</option>';
+		}
+		$("#inputMajor").html(majorOptionsHtml);
+		var $form = $("#profile-form");
+		var form = $form[0];
+		for (var key in userInfo) {
+			form[key].value = userInfo[key];
+		}
+		if (parseInt(form.student_id.value) === 0) {
+			form.student_id.value = '';
+		}
+		$form.ajaxForm({
+			success: function(d) {
+	            $message.hide();
+				if(d.code !== 0){
+	                $message.attr('class', 'alert alert-danger');
+				    $message.text(d.message);
+				    $message.fadeIn();
+				    form[d.field].focus();
+				}else{
+	                $message.attr('class', 'alert alert-success');
+				    $message.text('Your profile is updated succssfully.');
+				    $message.fadeIn();
+				}
+			}
+		});
+	},
 	"major": function() {
 		var $save = $("#major-editor-save");
 		var $modal = $("#major-editor");
