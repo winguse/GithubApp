@@ -1,0 +1,22 @@
+{
+  "name": "WinguseApp",
+  "version": "0.0.0",
+  "authors": [
+    "winguse <winguse@msn.com>"
+  ],
+  "dependencies": {
+    "jquery": null,
+    "bootstrap": null,
+    "react": null,
+    "jquery-form": "https://github.com/malsup/form.git#~3.46.0"
+  },
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

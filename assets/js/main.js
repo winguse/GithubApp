@@ -39,7 +39,7 @@ var github_app = {
 			}
 		});
 	},
-	"major": function() {
+	"admin_majors": function() {
 		var $save = $("#major-editor-save");
 		var $modal = $("#major-editor");
 		var $id_group = $("#major-id-group");
@@ -134,6 +134,6 @@ var github_app = {
 
 
 
-if (page) {
+if (page && github_app[page]) {
 	github_app[page]();
 }

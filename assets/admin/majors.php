@@ -72,6 +72,6 @@
 	</div>
 </div>
 <script>
-var page = "major";
+var page = "admin_majors";
 </script>
 <?php require_once dirname(__FILE__). '/../footer.php';?>

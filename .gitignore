@@ -1,9 +1,6 @@
 /config.php
 /Slim
-/assets/js/bootstrap.*
-/assets/js/jquery*
-/assets/js/npm.js
-/assets/fonts/
-/assets/css/bootstrap*
+/assets/external/
+/assets/bower_components/
 /tmp.html
 /test.php

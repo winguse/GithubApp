@@ -22,5 +22,17 @@ $app->group(
 				);
 			}
 		);
+		$app->group(
+			'/users',
+			function () use ($app){
+				$app->get(
+					'/',
+					function() use ($app){
+						$filter = new User();
+						$app->render('/admin/users.php', array('users' => $app->dao->find($filter)));
+					}
+				);
+			}
+		);
 	}
 );
