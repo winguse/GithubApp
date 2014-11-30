@@ -20,40 +20,10 @@
 <div class="page-header">
 	<h1>Users</h1>
 </div>
-<table class="table">
-	<thead>
-		<tr>
-			<th>Id</th>
-			<th>Role</th>
-			<th>Github Info</th>
-			<th>Real name</th>
-			<th>Grade</th>
-			<th>Student ID</th>
-			<th>Major</th>
-			<th>Email</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php foreach($users as $user) {?>
-		<tr data-id="<?=$user->id?>">
-			<td><?=$user->id?></td>
-			<td><?=$major->github_login?></td>
-			<td>
-				<button type="button" class="btn btn-xs major-edit" title="Edit">
-				    <span class="glyphicon glyphicon-edit"></span>
-				    <span class="sr-only">Edit</span>
-				</button>
-				<button type="button" class="btn btn-xs major-delete" title="Delete">
-				    <span class="glyphicon glyphicon-trash"></span>
-				    <span class="sr-only">Delete</span>
-				</button>
-			</td>
-		</tr>
-		<?php } ?>
-	</tbody>
-</table>
+<div id="content">
+</div>
 <script>
 var page = "admin_users";
+var users = <?=json_encode($users)?>;
 </script>
 <?php require_once dirname(__FILE__). '/../footer.php';?>

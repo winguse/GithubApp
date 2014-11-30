@@ -3,8 +3,60 @@ String.prototype.htmlEncode = function() {
 };
 
 var GITHUB_APP_BASE_PATH = '/app/github';
-
 var github_app = {
+	"admin_users": function(){
+        var UserInfo = React.createClass({
+			displayname: 'UserInfo',
+			render: function(){
+				var user = this.props.user;
+				return (
+					<tr>
+						<td>{user.id}</td>
+						<td>{user.github_login}</td>
+						<td>{user.role}</td>
+						<td>{user.real_name}</td>
+						<td>{user.grade}</td>
+						<td>{user.student_id}</td>
+						<td>{user.major_id}</td>
+						<td>{user.email}</td>
+						<td>{user.role}</td>
+					</tr>
+				);
+			}
+        });
+        var UsersTable = React.createClass({
+        	onClick: function(obj){alert(obj);},
+            displayName: 'UsersTable',
+            render: function() {
+                return (
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Github Info</th>
+                                <th>Role</th>
+                                <th>Name</th>
+                                <th>Grade</th>
+                                <th>Student Id</th>
+                                <th>Major</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map(function(user){
+                            	return <UserInfo user={user}/>
+                            })}
+                        </tbody>
+                    </table>
+                );
+            }
+        });
+        React.render(
+            React.createElement(UsersTable, null),
+            document.getElementById('content')
+        );
+    },
 	"profile": function() {
 	    var $message = $("#message");
 	    $message.hide();

@@ -76,6 +76,7 @@ $app->get(
 		if($state == null && $code == null) {
 			$state = mt_rand();
 			$_SESSION['state']= $state;
+			//https://winguse.com/app/github/auth?code=48976a3883761c3e7150&state=652470324
 			$app->render('/auth.php', array('alert_type' => 'alert-info', 'process_name' => 'Redirecting you to github.com ...', 'url' => GITHUB_AUTH_URL.'?client_id='.GITHUB_CLIENT_ID.'&redirect_uri='.urlencode($redirect_url).'&scope='.APP_AUTH_SCOPE.'&state='.$state));
 		} elseif ($state == $_SESSION['state']){
 			unset($_SESSION['state']);
@@ -86,7 +87,6 @@ $app->get(
 		}
 	}
 );
-
 $app->get(
 	'/test',
 	function() use ($app) {
