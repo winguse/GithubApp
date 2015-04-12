@@ -33,3 +33,7 @@ body {
 code {
 	font-size: 80%;
 }
+
+table>thead>tr>th {
+    cursor: pointer;
+}

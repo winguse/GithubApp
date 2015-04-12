@@ -64,10 +64,11 @@ $app->get(
 				}else{
 					$app->dao->update($user);
 				}
-				$user = new User();
+				$user = new User();//为啥重新new user??????
 				$user->github_id = $userInfo['id'];
 				$user = $app->dao->find($user)[0];
 				$_SESSION['user'] = json_encode($user);
+			//	$_SESSION['$access_token_response']=$access_token_response;
 				$app->redirect(APP_BASE_PATH.($isNewUser ? '/user/profile' : '/user'));
 			}
 		}

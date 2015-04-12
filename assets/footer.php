@@ -13,6 +13,6 @@
     <script src="<?=$assets_path ?>/external/jquery-form/jquery.form.js"></script>
     <script src="<?=$assets_path ?>/external/react/react.js"></script>
     <script src="<?=$assets_path ?>/external/react/JSXTransformer.js"></script>
-    <script src="<?=$assets_path ?>/js/main.js" type="text/jsx"></script>
+    <script src="<?=$assets_path ?>/js/main.jsx" type="text/jsx"></script>
   </body>
 </html>

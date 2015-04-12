@@ -18,16 +18,16 @@ $app = new \Slim\Slim(array(
 	'debug' => true,
 	'mode' => 'development'
 ));
-\Slim\Route::setDefaultConditions(array(
+\Slim\Route::setDefaultConditions(array( 
 	'id' => '\\d+'
 ));
-$app->view->setData(array(
+$app->view->setData(array( //inject data into the view object. usually pass data to the view with the Slim application’s `render()` method
 	'assets_path' => APP_BASE_PATH.'/assets',
 	'api_path' => APP_BASE_PATH.'/api',
 	'site_name' => APP_NAME
 ));
 
-$app->container->singleton('pdo', function () {
+$app->container->singleton('pdo', function () { //单例模式 Every time you request the pdo resource with $app->pdo, it will return the same instance
 	return new PDO('mysql:dbname='.APP_DB_NAME.';host='.APP_DB_HOST, APP_DB_USER, APP_DB_PASSWORD);
 });
 $app->container->singleton('mcrypt', function () {
