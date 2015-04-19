@@ -67,7 +67,7 @@ class Dao {
 	}
 	
 	public function find($filter_obj, $condition = '='){
-		$ref = new ReflectionClass($filter_obj);
+		$ref = new ReflectionClass($filter_obj);//用反向工程的好处？？？？
 		$properties = $ref->getProperties(ReflectionProperty::IS_PUBLIC);
 		$sql = 'SELECT ';
 		$where = '';

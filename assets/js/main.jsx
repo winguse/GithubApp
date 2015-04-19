@@ -34,11 +34,21 @@ var github_app = {
 								var userId= this.id;
 								var editUser = function(){
 									console.log("edit user" + userId);
-									
+									window.location = GITHUB_APP_BASE_PATH + '/user/' + userId;
 								};
 								var deleteUser = function(){
-									console.log("delete user" + userId);
-									
+									if(confirm('Are you confirm to delete user id = ' + userId)){
+										$.ajax({
+											url: GITHUB_APP_BASE_PATH + '/api/user/' + userId,
+											type: "DELETE",
+											success: function(d) {
+												if (d.code === 0)
+													window.location.reload();
+												else
+													alert('delete failed..');
+											}
+										});
+									}
 								};
 								if(idx === totalFeildsCount - 1)
 									return (

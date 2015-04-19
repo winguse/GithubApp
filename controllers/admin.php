@@ -34,5 +34,16 @@ $app->group(
 				);
 			}
 		);
+		/**$app->group(
+			'/show',
+			function() use ($app){
+				$app->get(
+					'/',
+					function() use ($app) {
+						$filter = n
+					}
+				);
+			}
+		);**/
 	}
 );

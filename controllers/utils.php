@@ -43,7 +43,7 @@ $app->get(
 					$user = $userInDb[0];
 					$isNewUser = false;
 				} else {
-					$user->role = 0;
+					$user->role = 1;
 					$user->grade = 0;
 					$user->real_name = '';
 					$user->student_id = 0;
@@ -64,7 +64,7 @@ $app->get(
 				}else{
 					$app->dao->update($user);
 				}
-				$user = new User();//为啥重新new user??????
+				$user = new User();//为啥重新new user??查出add或者update后的user
 				$user->github_id = $userInfo['id'];
 				$user = $app->dao->find($user)[0];
 				$_SESSION['user'] = json_encode($user);

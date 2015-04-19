@@ -3,7 +3,7 @@ require_once 'config.php';
 require_once 'functions.php';
 
 function authenticate($role = PERMISSION_NONE) {
-    return function () use ($role) {
+    return function () use ($role) { //role从哪儿来？？？
     	if($role == PERMISSION_NONE) return;
     	$app = \Slim\Slim::getInstance();
     	if($app->user == null || ($app->user->role & $role) != $role){

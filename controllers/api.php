@@ -54,6 +54,15 @@ $app->group(
 						return profile($app);
 					}
 				);
+				$app->delete( // update ogined users' profiles
+					'/:id',
+					authenticate(PERMISSION_ADMIN),
+					function($id) use ($app){
+						$user = new User();
+						$user->id = $id;
+						echo json_encode(array('code' => $app->dao->delete($user)));
+					}
+				);
 			}
 		);
 	}
