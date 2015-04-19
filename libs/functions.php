@@ -1,7 +1,6 @@
 <?php
 
 function profile($app){
-	//test test test test
 	$verifyRules = array(
 		'real_name' => array(
 			'parse' => function($real_name){
