@@ -22,6 +22,66 @@ var IconButton = React.createClass({
 
 
 var github_app = {
+/***	"user_major": function(){
+		var User_MajorInfo = React.createClass({
+			displayName: 'User_MajorInfo',
+			render: function(){
+				var totalFeildsCount = this.props.fields.length;
+				return (
+					<tr>
+						{
+							this.props.fields.map(function(field, idx){
+								var userId= this.id;
+								return (<td key={idx}>{this[field]}</td>);
+							}.bind(this.props.user))
+						}
+					</tr>
+				);
+			}
+		});
+		var User_MajorTable = React.createClass({
+			getInitialState: function(){
+				return {desc: false, field: false}
+			},
+			headerClick: function(e){
+				var field = this.props.fields[e.target.cellIndex];
+				var desc = (field === this.state.field) && !this.state.desc;
+				this.state.field = field;
+				this.state.desc = desc;
+				this.setProps({users: users.sort(function(a, b){
+					return desc ^ (a[field] > b[field]);
+				})});
+			},
+			displayName: 'User_MajorTable',
+			render: function() {
+				return (
+					<table className="table">
+						<thead>
+							<tr onClick={this.headerClick}>
+								{this.props.fieldDisplayNames.map(function(displayName, idx){
+									return <th key={idx}>{displayName}</th>
+								})}
+							</tr>
+						</thead>
+						<tbody>
+							{this.props.users.map(function(user){
+								return <UserInfo key={user.id} user={user} fields={this.props.fields}/>
+							}.bind(this))}
+						</tbody>
+					</table>
+				); 
+			}
+		});
+		React.render(
+			<User_MajorTable 
+				users={users}
+				fields={['id','name']
+				fieldDisplayNames={['Id','Major']}
+			/>,
+			document.getElementById('content')
+		);
+	},
+	****/
 	"admin_users": function(){
 		var UserInfo = React.createClass({
 			displayName: 'UserInfo',
@@ -107,6 +167,7 @@ var github_app = {
 		);
 	},
 	"profile": function() {
+		// 添加成功后要给用户建一个repository
 		var $message = $("#message");
 		$message.hide();
 		var majorOptionsHtml = '<option value="null">Please set your major</option>';
@@ -124,9 +185,9 @@ var github_app = {
 		if (parseInt(form.student_id.value) === 0) {
 			form.student_id.value = '';
 		}
-		$form.ajaxForm({
-			success: function(d) {
-				$message.hide();
+		$form.ajaxForm({//怎么触发的？profile中的profile-form表单提交时
+			success: function(d) {//function.php中的JQuery ajax之间的数据交互？d是怎么传进来的？？？
+				$message.hide();//表单成功提交后调用的回调函数。如果提供“success”回调函数，当从服务器返回响应后它被调用。然后由dataType选项值决定传回responseText还是responseXML的值。
 				if(d.code !== 0){
 					$message.attr('class', 'alert alert-danger');
 					$message.text(d.message);
@@ -134,7 +195,9 @@ var github_app = {
 					form[d.field].focus();
 				}else{
 					$message.attr('class', 'alert alert-success');
-					$message.text('Your profile is updated succssfully.');
+					//跳转到提交成功页面
+					//window.location="<?=$url?>"
+					$message.text('Your profile is updated succssfully.');//update成功之后没有alert出text？？？
 					$message.fadeIn();
 				}
 			}
@@ -157,9 +220,9 @@ var github_app = {
 			$save.click(function() {
 				$.ajax({
 					type: "PUT",
-					url: GITHUB_APP_BASE_PATH + '/api/majors/',
-					data: {
-						name: $name[0].value
+					url: GITHUB_APP_BASE_PATH + '/api/majors/',//指定提交表单数据的URL。默认值：表单的action属性值
+					data: {//发送到服务器的数据;
+						name: $name[0].value//映射类型数据
 					},
 					success: function(d) {
 						if (d.code === 0) {
@@ -222,17 +285,6 @@ var github_app = {
 				}, 5000);
 			}
 		});
-
-		/****$modal.on('show.bs.modal', function (event) {
-			var $button = $(event.relatedTarget);// Button that triggered the modal
-  			//var id = $button.data('id');
-  			//var name = $button.data('name');
-  			console.log($id);
-  			var modal = $(this);
-			$alert.hide();
-  			modal.find('.modal-body input').val(id);
-  			modal.find('.modal-body input').val(name);
-		});**/
 		$modal.on('show.bs.modal', function() {
 			$alert.hide();
 		});
@@ -241,6 +293,7 @@ var github_app = {
 			$id_group.show();
 		});
 	}
+	
 };
 
 

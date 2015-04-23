@@ -39,9 +39,10 @@ $app->container->singleton('dao', function () use ($app) {
 $app->container->singleton('user', function () use ($app) {
 	if(!isset($_SESSION['user'])) return null;
 	$user = new User();
-	foreach (json_decode($_SESSION['user'], true) AS $key => $value) {
+	foreach (json_decode($_SESSION['user'], true) AS $key => $value) { //session生命周期？？
 		$user->{$key} = $value;
 	}
+	//var_dump($user);
 	return $user;
 });
 $app->container->singleton('github', function () use ($app) {

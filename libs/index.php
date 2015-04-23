@@ -3,12 +3,13 @@ require_once 'config.php';
 require_once 'functions.php';
 
 function authenticate($role = PERMISSION_NONE) {
-    return function () use ($role) { //role从哪儿来？？？
+    return function () use ($role) { //role从哪儿来？？echo "role=".1; app->user->role=4 ,4 1 ,1 2,4 3,1 0
     	if($role == PERMISSION_NONE) return;
     	$app = \Slim\Slim::getInstance();
     	if($app->user == null || ($app->user->role & $role) != $role){
             $app->flash('error', 'Not authenticated');
-            $app->redirect(APP_BASE_PATH);
+            $app->render('/index.php',array('role'=>$role));
+            //$app->redirect(APP_BASE_PATH);
     	}
         
     };

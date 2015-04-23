@@ -3,8 +3,8 @@
 	<h1>Your profile</h1>
 </div>
 <div role="alert" id="message"></div>
-<form class="form-horizontal" role="form" id="profile-form" action="<?=$api_path ?>/user/profile" method="post">
-	<div class="form-group">
+<form class="form-horizontal" role="form" id="profile-form" action="<?=$api_path ?>/user/profile" method="post"><!--api_path从什么地方传过来的？？？--->
+	<div class="form-group"><!---api/user/profile 调用function.php返回数据？？？-->
 		<label for="inputRealName" class="col-sm-3 control-label">Real Name</label>
 		<div class="col-sm-7">
 			<input name="real_name" type="text" class="form-control" id="inputRealName" placeholder="Real Name">
@@ -60,6 +60,6 @@
 <script>
 var userInfo = <?=json_encode($userEditableInfo) ?>;
 var majors = <?=json_encode($majors) ?>;
-var page = 'profile';
+var page = 'profile';//什么时候调用的，有什么异步操作之类的？？？？
 </script>
 <?php require_once dirname(__FILE__). '/../footer.php';?>

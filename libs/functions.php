@@ -59,10 +59,19 @@ function profile($app){
 		}
 		$verified_data[$field] = $value;
 	}
+	//同时再此处更新 User_Major!!!!!!!!!!
 	foreach($verified_data as $field => $value){
 		$app->user->{$field} = $value;
 	}
+	$user_major = new User_Major();
+	$user_major->user_id=$app->user->id;
+	$user_major->major_id=$app->user->major_id;
+	//var_dump($user_major);
+	//echo "in function.php app->user=";
+	//var_dump($app->user);
 	$app->dao->update($app->user);
+	$app->dao->update($user_major);
 	$_SESSION['user'] = json_encode($app->user);
-	echo json_encode(array('code' => 0));
+	echo json_encode(array('code' => 0));//在此处echo出来的变量能够在main.js当做已经定义的变量使用？会在(服务器)controller层被return给客户端
+	//这中间的异步通信问题？？异步派发数据http://www.cnblogs.com/heyuquan/archive/2013/05/13/js-jquery-ajax.html
 }
