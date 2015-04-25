@@ -54,7 +54,7 @@ class Dao {
 			$add_comma = true;
 		}
 		$sql .= ' WHERE id = :id';
-		echo "in update sql=".$sql;
+		echo "in update sql=".$sql;//没有输出？？？
 		$statement = $this->pdo->prepare($sql);
 		$ret = 0;
 		foreach($obj_array as $obj){

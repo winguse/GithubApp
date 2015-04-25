@@ -88,10 +88,10 @@ var github_app = {
 			render: function(){
 				var totalFeildsCount = this.props.fields.length;
 				return (
-					<tr>
+					<tr>//可以将real_name单独用<a>标签？？
 						{
 							this.props.fields.map(function(field, idx){
-								var userId= this.id;
+								var userId= this.id;//this.id从哪儿来？？
 								var editUser = function(){
 									console.log("edit user" + userId);
 									window.location = GITHUB_APP_BASE_PATH + '/user/' + userId;
@@ -117,8 +117,9 @@ var github_app = {
 											<IconButton name="Delete" icon="trash" size="xs" onClick={deleteUser}/>
 										</td>
 									);
+								//if(idx===0) return (<a key={idx}>{this[field]}</a>);
 								return (<td key={idx}>{this[field]}</td>);
-							}.bind(this.props.user))
+							}.bind(this.props.user))//只知道字面意思，比知道实际运行情况。
 						}
 					</tr>
 				);
@@ -143,7 +144,7 @@ var github_app = {
 					<table className="table">
 						<thead>
 							<tr onClick={this.headerClick}>
-								{this.props.fieldDisplayNames.map(function(displayName, idx){
+								{this.props.fieldDisplayNames.map(function(displayName, idx){//idx默认自动增长？？
 									return <th key={idx}>{displayName}</th>
 								})}
 							</tr>
