@@ -60,6 +60,6 @@
 <script>
 var userInfo = <?=json_encode($userEditableInfo) ?>;
 var majors = <?=json_encode($majors) ?>;
-var page = 'profile';//什么时候调用的，有什么异步操作之类的？？？？
+var page = 'profile';
 </script>
 <?php require_once dirname(__FILE__). '/../footer.php';?>

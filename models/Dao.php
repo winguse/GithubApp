@@ -54,7 +54,7 @@ class Dao {
 			$add_comma = true;
 		}
 		$sql .= ' WHERE id = :id';
-		echo "in update sql=".$sql;//没有输出？？？
+		//echo "in update sql=".$sql;//没有输出？？？
 		$statement = $this->pdo->prepare($sql);
 		$ret = 0;
 		foreach($obj_array as $obj){
@@ -64,7 +64,7 @@ class Dao {
 			}
 			if(!$statement->execute($values)) $ret++;
 		}
-		echo "in update function";
+		//echo "in update function";
 		return $ret;
 	}
 	
@@ -88,7 +88,7 @@ class Dao {
 		if($where != '') {
 			$sql .= ' WHERE' . $where;
 		}
-		echo "in pdo find sql=".$sql;
+		//echo "in pdo find sql=".$sql;
 		$statement = $this->pdo->prepare($sql);
 		$statement->execute($query_parameters);
 		$result = array();

@@ -70,7 +70,7 @@ function profile($app){
 	//echo "in function.php app->user=";
 	//var_dump($app->user);
 	$app->dao->update($app->user);
-	$app->dao->update($user_major);
+	$app->dao->add($user_major);
 	$_SESSION['user'] = json_encode($app->user);
 	echo json_encode(array('code' => 0));//在此处echo出来的变量能够在main.js当做已经定义的变量使用？会在(服务器)controller层被return给客户端
 	//这中间的异步通信问题？？异步派发数据http://www.cnblogs.com/heyuquan/archive/2013/05/13/js-jquery-ajax.html

@@ -8,8 +8,8 @@ function authenticate($role = PERMISSION_NONE) {
     	$app = \Slim\Slim::getInstance();
     	if($app->user == null || ($app->user->role & $role) != $role){
             $app->flash('error', 'Not authenticated');
-            $app->render('/index.php',array('role'=>$role));
-            //$app->redirect(APP_BASE_PATH);
+            //$app->render('/index.php',array('role'=>$role));
+            $app->redirect(APP_BASE_PATH);
     	}
         
     };
@@ -47,6 +47,7 @@ class GithubApiCaller {
 		if($response === false){
 			throw new Exception('Call '.$this->url.' failed.');
 		}
+		//var_dump(json_decode($response, true));
 		return json_decode($response, true);
 	}
 	
@@ -59,7 +60,9 @@ class GithubApiCaller {
 	}
 	
 	public function get($url) {
+		echo " before apicaller callinit".'\n';
 		$this->callInit($url);
+		echo " after apicaller callinit\\n";
 		return $this->callExecute();
 	}
 }

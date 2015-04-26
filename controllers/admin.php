@@ -32,6 +32,12 @@ $app->group(
 						$app->render('/admin/users.php', array('users' => $app->dao->find($filter)));
 					}
 				);
+				$app->get(
+					'/content',
+					function() use ($app){
+						$app->render('/repos/content.php');
+					}
+				);
 			}
 		);
 		/**$app->group(

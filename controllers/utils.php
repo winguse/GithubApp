@@ -38,6 +38,7 @@ $app->get(
 				$user = new User();
 				$user->github_id = $userInfo['id'];
 				$userInDb = $app->dao->find($user);
+				$_SESSION['userInDb'] = json_encode($userInDb);
 				$isNewUser = true;
 				if($userInDb != null && count($userInDb) > 0){
 					$user = $userInDb[0];

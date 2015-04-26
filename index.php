@@ -54,5 +54,6 @@ require_once 'controllers/api.php';
 require_once 'controllers/admin.php';
 require_once 'controllers/user.php';
 require_once 'controllers/utils.php';
+require_once 'controllers/repos.php';
 
 $app->run();
