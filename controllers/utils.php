@@ -23,12 +23,15 @@ $app->get(
 				"code"          => $code
 			);
 			$access_token_response = $app->github->post(GITHUB_ACCESS_TOKEN_URL, $data);
+			//$_SESSION['$access_token_response']=$access_token_response;
+			//var_dump($access_token_response);
 			if(array_key_exists('error', $access_token_response)){
 				$error = $access_token_response['error'];
 				echo $error; // TODO application error while calling
 			}else{
 				$access_token = $access_token_response['access_token'];
 				$scope = $access_token_response['scope'];
+				echo "the scope".$scope;
 				$token_type = $access_token_response['token_type'];
 				if(APP_AUTH_SCOPE != $scope) {
 					return; // TODO auth error
@@ -69,7 +72,7 @@ $app->get(
 				$user->github_id = $userInfo['id'];
 				$user = $app->dao->find($user)[0];
 				$_SESSION['user'] = json_encode($user);
-			//	$_SESSION['$access_token_response']=$access_token_response;
+				//$_SESSION['$access_token_response']=$access_token_response;
 				$app->redirect(APP_BASE_PATH.($isNewUser ? '/user/profile' : '/user'));
 			}
 		}

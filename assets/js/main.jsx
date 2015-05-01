@@ -52,7 +52,7 @@ var github_app = {
 								};
 								var hrefUser = function(){
 									console.log("href User "+userId);
-									window.location = GITHUB_APP_BASE_PATH + '/repos/content/';
+									window.location = GITHUB_APP_BASE_PATH + '/repos/content/'+ userId;/**应该跳转到创建用户的界面**/
 								};
 								if(idx === totalFeildsCount - 1)
 									return (
