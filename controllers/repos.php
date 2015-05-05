@@ -31,13 +31,19 @@ $app->group(
 					'/create',
 					function() use ($app){
 						$repository_name=$app->request->post('repository_name');
-						echo $repository_name;
-						$data = array( 
-							"name"          =>$repository_name
-						);
+						$repository_name=trim($repository_name);
+						$repository_description= "hahahahah";//$app->request->post('repository_description');
+						$data='{"name": '.' "'.$repository_name.'" '.','.
+						' "description": "$repository_description",
+							  "homepage": "https://github.com",
+							  "private": false,
+							  "has_issues": true,
+							  "has_wiki": true,
+							  "has_downloads": true
+						}';
 						$access_token = $app->user->github_access_token;
 						$app->github->setAccessToken($access_token);
-						$repos_create_response = $app->github->post(GITHUB_REPOS_URL,$data);
+						$repos_create_response = $app->github->post('https://api.github.com/user/repos',$data);
 						if(array_key_exists('message' , $repos_create_response)){
 							$message = $repos_create_response['message'];
 							echo $message;
@@ -45,7 +51,7 @@ $app->group(
 							$owner = $repos_create_response['owner'];
 							//var_dump($repos_create_response);
 						}
-						//var_dump($repos_create_response) ;
+						var_dump($repos_create_response) ;
 						$app->render('repos/create.php',array('repository_name'=>$repository_name));
 					}
 				);

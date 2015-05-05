@@ -39,7 +39,6 @@ class GithubApiCaller {
 		if($this->access_token != null) {
 			$header[] = 'Authorization: token '.$this->access_token;
 		}
-		//$header[] = {"scopes" : ["public_repo"]};
 		curl_setopt($this->curl, CURLOPT_HTTPHEADER, $header); 
 	}
 	
@@ -48,7 +47,6 @@ class GithubApiCaller {
 		if($response === false){
 			throw new Exception('Call '.$this->url.' failed.');
 		}
-		var_dump($response);
 		return json_decode($response, true);
 	}
 	
