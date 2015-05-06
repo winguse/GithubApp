@@ -11,7 +11,6 @@ function authenticate($role = PERMISSION_NONE) {
             //$app->render('/index.php',array('role'=>$role));
             $app->redirect(APP_BASE_PATH);
     	}
-        
     };
 };
 
