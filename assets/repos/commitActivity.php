@@ -13,21 +13,26 @@
 			<th>Friday</th>
 			<th>Saturday</th>
 			<th>TotalCommit</th>
+			<th>Addition</th>
+			<th>deletion</th>
 			<th>Week</th>
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach($commit_activity as $statistic) {?>
+		<?php for($i = 0; $commit_activity[$i]!=0, $code_frequency[$i]!=0; $i++) {?>
 		<tr>
-			<td><?= $statistic['SUN'] ?></td>
-			<td><?= $statistic['MON'] ?></td>
-			<td><?=$statistic['TUE'] ?></td>
-			<td><?=$statistic['WED'] ?></td>
-			<td><?=$statistic['THU'] ?></td>
-			<td><?=$statistic['FRI'] ?></td>
-			<td><?=$statistic['SAT'] ?></td>
-			<td><?=$statistic['total'] ?></td>
-			<td><?=$statistic['week'] ?></td>
+			<td><?= $commit_activity[$i]['SUN'] ?></td>
+			<td><?= $commit_activity[$i]['MON'] ?></td>
+			<td><?=$commit_activity[$i]['TUE'] ?></td>
+			<td><?=$commit_activity[$i]['WED'] ?></td>
+			<td><?=$commit_activity[$i]['THU'] ?></td>
+			<td><?=$commit_activity[$i]['FRI'] ?></td>
+			<td><?=$commit_activity[$i]['SAT'] ?></td>
+			<td><?=$commit_activity[$i]['total'] ?></td>
+			<td><?=$code_frequency[$i]['addition'] ?></td>
+			<td><?=$code_frequency[$i]['deletion'] ?></td>
+			<td><?=$commit_activity[$i]['week'] ?></td>
+
 		</tr>
 		<?php } ?>
 	</tbody>

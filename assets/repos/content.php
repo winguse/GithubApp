@@ -19,7 +19,7 @@
 	//echo $userInDb;
 	
 	//echo "in content php"; 
-	var_dump($contents);
+	//var_dump($contents);
 	//$contents=$_SESSION['contents'];
 	//var_dump($contents[0]);
 	
