@@ -5,18 +5,21 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>Id</th>
-			<th>Major name</th>
-			<th>Actions</th>
+			<th>User</th>
+			<th>Addition</th>
+			<th>Deletion</th>
+			<th>Commit</th>
+			<th>Time</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php foreach($statistic_array as $statistic) {?>
 		<tr>
-			<td><?= $statistic->login ?></td>
-			<td><?=$statistic->Time ?></td>
-			<td><?= $statistic->addition ?></td>
-			<td><?=$statistic->Time ?></td>
+			<td><?= $statistic['login'] ?></td>
+			<td><?= $statistic['addition'] ?></td>
+			<td><?=$statistic['deletion'] ?></td>
+			<td><?=$statistic['commit'] ?></td>
+			<td><?=$statistic['Time'] ?></td>
 		</tr>
 		<?php } ?>
 	</tbody>

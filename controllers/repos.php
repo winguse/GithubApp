@@ -61,17 +61,17 @@ $app->group(
 			'/statistics',
 			function () use($app){
 				$app->get(
-					'/total',
+					'/contributors',
 					function () use ($app){
 						$results=$app->github->get(GITHUB_STATISTIAC_URL.'/winguse/GithubApp/stats/contributors');
 						/*Unix timestamp → 普通时间 PHP date('r', Unix timestamp)*/
-						//var_dump($res);
+						//var_dump($results);
 						$statistic_array = array();
 						foreach ($results as $result) {
-							$athuor = $result['athuor'];
+							$athuor = $result['author'];
 							$login = $athuor['login'];
 							$total = $result['total'];
-							$weeks = $reslut['weeks'];
+							$weeks = $result['weeks'];
 							foreach ($weeks as $week) {
 								$time = $week['w'];
 								$time = date('r',$time);
@@ -84,7 +84,32 @@ $app->group(
 								$statistic_array[] = $tmp; 
 							}
 						}
+						//var_dump($statistic_array);
 						$app->render('/repos/statistics.php' , array('statistic_array' =>$statistic_array) );
+					}
+				);
+				$app->get(
+					'/commitActivity',
+					function () use ($app){
+						$results = $app->github->get(GITHUB_STATISTIAC_URL.'/winguse/GithubApp/stats/commit_activity');
+						//var_dump($results);
+						$commit_activity =  array();
+						foreach ($results as $result) {
+							$total_commit = $result['total'];
+							if($total_commit == 0) continue;
+							$week = $result['week'];
+							$week = date('r',$week);
+							$commit_SUN = $result['days'][0];
+							$commit_MON = $result['days'][1];
+							$commit_TUE = $result['days'][2];
+							$commit_WED = $result['days'][3];
+							$commit_THU = $result['days'][4];
+							$commit_FRI = $result['days'][5];
+							$commit_SAT = $result['days'][6];
+							$commit_activity[] = array('SUN'=>$commit_SUN,'MON'=>$commit_MON, 'TUE'=>$commit_TUE, 
+							'WED'=>$commit_WED,'THU'=>$commit_THU,'FRI'=>$commit_FRI,'SAT'=>$commit_SAT,'total'=>$total_commit,'week'=>$week);
+						}
+						$app->render('repos/commitActivity.php', array('commit_activity'=>$commit_activity));
 					}
 				);
 			}
