@@ -22,6 +22,72 @@ var IconButton = React.createClass({
 
 
 var github_app = {
+	"list": function(){
+		var UserInfo = React.createClass({
+			displayName: 'UserInfo',
+			render: function(){
+				var totalFeildsCount = this.props.fields.length;
+				return (
+					<tr>
+						{
+							this.props.fields.map(function(field, idx){
+								var owner_name = this.owner_name;
+								var repos_name = this.repos_name;
+								var hrefUser = function(){
+									window.location = GITHUB_APP_BASE_PATH + '/repos/statistics/contributors/'+owner_name+'/'+repos_name;/**应该跳转到创建用户的界面**/
+								};
+								if(idx===1) {
+									return (<td key={idx}><a title={this[field]}  onClick={hrefUser}>{this[field]}</a></td>);
+								}
+								if(idx===2) { return (<td key={idx}>{this[field]}</td>);}
+							}.bind(this.props.repos))
+						}
+					</tr>
+				);
+			}
+		});
+		var UsersTable = React.createClass({
+			getInitialState: function(){
+				return {desc: false, field: false}
+			},
+			headerClick: function(e){
+				var field = this.props.fields[e.target.cellIndex];
+				var desc = (field === this.state.field) && !this.state.desc;
+				this.state.field = field;
+				this.state.desc = desc;
+				this.setProps({repos_list: repos_list.sort(function(a, b){
+					return desc ^ (a[field] > b[field]);
+				})});
+			},
+			displayName: 'UsersTable',
+			render: function() {
+				return (
+					<table className="table">
+						<thead>
+							<tr onClick={this.headerClick}>
+								{this.props.fieldDisplayNames.map(function(displayName, idx){
+									return <th key={idx}>{displayName}</th>
+								})}
+							</tr>
+						</thead>
+						<tbody>
+							{this.props.repos_list.map(function(repos, idx){
+								return <UserInfo key={idx} repos={repos} fields={this.props.fields}/>
+							}.bind(this))}
+						</tbody>
+					</table>
+				); 
+			}
+		});
+		React.render(
+			<UsersTable 
+				repos_list={repos_list}
+				fields={['owner_name', 'repos_name','html_url']}
+				fieldDisplayNames={['Reops_name','Html_url']}
+			/>,
+			document.getElementById('content1')
+		);
+	},
 	"admin_users": function(){
 		var UserInfo = React.createClass({
 			displayName: 'UserInfo',

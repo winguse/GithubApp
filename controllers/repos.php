@@ -13,7 +13,17 @@ $app->group(
 						$user = $app->dao->find($user)[0];
 						$username=$user->github_login;
 						$contents = $app->github->get('https://api.github.com/users/'.$username.'/repos');
-						$app->render('/repos/content.php' , array('contents'=>$contents));
+						//var_dump($contents);
+						$repos_list= array();
+						foreach($contents as $content){
+							$repos_name = $content['name'];
+							$html_url = $content['html_url'];
+							$repos_list[] = array(	"owner_name" => $username, 
+													"repos_name" => $repos_name,
+													"html_url"   => $html_url); 
+						}
+						//var_dump(json_encode($repos_list));
+						$app->render('/repos/content.php' , array('repos_list'=>$repos_list));
 					}
 				);
 			}
@@ -58,70 +68,82 @@ $app->group(
 			}
 		);
 		$app->group(
+			/*winguse.com/app/github/repos/statistics/contributors/winguse/GithubApp
+			*/
 			'/statistics',
 			function () use($app){
 				$app->get(
-					'/contributors',
-					function () use ($app){
-						$results=$app->github->get(GITHUB_STATISTIAC_URL.'/winguse/GithubApp/stats/contributors');
-						/*Unix timestamp → 普通时间 PHP date('r', Unix timestamp)*/
-						//var_dump($results);
-						$statistic_array = array();
-						foreach ($results as $result) {
-							$athuor = $result['author'];
-							$login = $athuor['login'];
-							$total = $result['total'];
-							$weeks = $result['weeks'];
-							foreach ($weeks as $week) {
-								$time = $week['w'];
-								$time = date('r',$time);
-								$addition = $week['a'];
-								$deletion = $week['d'];
-								$commit = $week['c'];
-								$flag = $addition||$deletion||$commit;
-								if($flag == false) continue;
-								$tmp = array('login'=>$login,'Time'=>$time, 'addition'=>$addition, 'deletion'=>$deletion,'commit'=>$commit);
-								$statistic_array[] = $tmp; 
+					/*/books/:one/:two*/
+					'/contributors/:owner_name/:repos_name',
+						function($owner_name, $repos_name) use($app){
+							/**https://api.github.com/repos/Twilightuse/Twilightuse/stats/contributors
+							 * **/
+							$results=$app->github->get(GITHUB_STATISTIAC_URL.'/'.$owner_name.'/'.$repos_name.'/stats/contributors');
+							/*Unix timestamp → 普通时间 PHP date('r', Unix timestamp)*/
+							//var_dump($results);
+							$statistic_array = array();
+							if($results!=null){
+								foreach ($results as $result) {
+									$athuor = $result['author'];
+									$login = $athuor['login'];
+									$total = $result['total'];
+									$weeks = $result['weeks'];
+									foreach ($weeks as $week) {
+										$time = $week['w'];
+										$time = date('r',$time);
+										$addition = $week['a'];
+										$deletion = $week['d'];
+										$commit = $week['c'];
+										$flag = $addition||$deletion||$commit;
+										if($flag == false) continue;
+										$tmp = array('login'=>$login,'Time'=>$time, 'addition'=>$addition, 'deletion'=>$deletion,'commit'=>$commit);
+										$statistic_array[] = $tmp; 
+									}
+								}
 							}
+							//var_dump($statistic_array);
+							$app->render('/repos/statistics.php' , array('statistic_array' =>$statistic_array) );
 						}
-						//var_dump($statistic_array);
-						$app->render('/repos/statistics.php' , array('statistic_array' =>$statistic_array) );
-					}
 				);
-				$app->get(
+				$app->group(
 					'/commitActivity',
-					function () use ($app){
-						$results_commit_activity = $app->github->get(GITHUB_STATISTIAC_URL.'/winguse/GithubApp/stats/commit_activity');
-						$results_code_frequency = $app->github->get(GITHUB_STATISTIAC_URL.'/winguse/GithubApp/stats/code_frequency');
-						//var_dump($results_code_frequency);
-						$commit_activity =  array();
-						$code_frequency = array();
-						foreach ($results_commit_activity as $result) {
-							$total_commit = $result['total'];
-							if($total_commit == 0) continue;
-							$week = $result['week'];
-							$week = date('r',$week);
-							$commit_SUN = $result['days'][0];
-							$commit_MON = $result['days'][1];
-							$commit_TUE = $result['days'][2];
-							$commit_WED = $result['days'][3];
-							$commit_THU = $result['days'][4];
-							$commit_FRI = $result['days'][5];
-							$commit_SAT = $result['days'][6];
-							$commit_activity[] = array('SUN'=>$commit_SUN,'MON'=>$commit_MON, 'TUE'=>$commit_TUE, 
-							'WED'=>$commit_WED,'THU'=>$commit_THU,'FRI'=>$commit_FRI,'SAT'=>$commit_SAT,'total'=>$total_commit,'week'=>$week);
-						}
-						$commit_activity[] = 0;
-						foreach($results_code_frequency as $result) {
-							//$week = $result[0];
-							//$week = date('r',$week);
-							$addition = $result[1];
-							$deletion = $result[2];
-							if($addition ==0 && $deletion == 0) continue;
-							$code_frequency[]= array('addition'=>$addition,'deletion'=>$deletion);
-						}
-						$code_frequency[] = 0;
-						$app->render('repos/commitActivity.php', array('commit_activity'=>$commit_activity,'code_frequency'=>$code_frequency));
+					function() use ($app){
+						$app->get(
+							'/:reposname',
+							function ($reposname) use ($app){
+								$results_commit_activity = $app->github->get(GITHUB_STATISTIAC_URL.'/winguse/GithubApp/stats/commit_activity');
+								$results_code_frequency = $app->github->get(GITHUB_STATISTIAC_URL.'/winguse/GithubApp/stats/code_frequency');
+								//var_dump($results_code_frequency);
+								$commit_activity =  array();
+								$code_frequency = array();
+								foreach ($results_commit_activity as $result) {
+									$total_commit = $result['total'];
+									if($total_commit == 0) continue;
+									$week = $result['week'];
+									$week = date('r',$week);
+									$commit_SUN = $result['days'][0];
+									$commit_MON = $result['days'][1];
+									$commit_TUE = $result['days'][2];
+									$commit_WED = $result['days'][3];
+									$commit_THU = $result['days'][4];
+									$commit_FRI = $result['days'][5];
+									$commit_SAT = $result['days'][6];
+									$commit_activity[] = array('SUN'=>$commit_SUN,'MON'=>$commit_MON, 'TUE'=>$commit_TUE, 
+									'WED'=>$commit_WED,'THU'=>$commit_THU,'FRI'=>$commit_FRI,'SAT'=>$commit_SAT,'total'=>$total_commit,'week'=>$week);
+								}
+								$commit_activity[] = 0;
+								foreach($results_code_frequency as $result) {
+									//$week = $result[0];
+									//$week = date('r',$week);
+									$addition = $result[1];
+									$deletion = $result[2];
+									if($addition ==0 && $deletion == 0) continue;
+									$code_frequency[]= array('addition'=>$addition,'deletion'=>$deletion);
+								}
+								$code_frequency[] = 0;
+								$app->render('repos/commitActivity.php', array('commit_activity'=>$commit_activity,'code_frequency'=>$code_frequency));
+							}
+						);
 					}
 				);
 			}

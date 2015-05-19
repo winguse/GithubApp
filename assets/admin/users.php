@@ -17,6 +17,9 @@
     public $github_updated_at;
     public $github_access_token;
 -->
+<?php 
+//	var_dump(json_encode($users));
+?>
 <div class="page-header">
 	<h1>Users</h1>
 </div>
