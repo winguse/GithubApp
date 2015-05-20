@@ -63,6 +63,13 @@ $app->group(
 						echo json_encode(array('code' => $app->dao->delete($user)));
 					}
 				);
+				$app->post(
+					'/add',
+					authenticate(PERMISSION_USER),
+					function() use ($app){
+						
+					}
+				);
 			}
 		);
 	}

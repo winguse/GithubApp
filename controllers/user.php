@@ -6,15 +6,8 @@ $app->group(
 		$app->get(
 			'/',
 			function () use ($app) {
-				$user_major = new User_Major();
-				$user = $app->user;
-				$user_major->user_id = $user->id;
-				/**echo "in view user user->id=";
-				var_dump($user);
-				echo "\\n in view user user-majors=";
-				$user_majorArr = $app->dao->find($user_major);
-				var_dump($user_majorArr);**/
-				$app->render('/user/index.php',array('user_major' => $app->dao->find($user_major)));
+				$major = new Major();
+				$app->render('/user/index.php',array('majors' => $app->dao->find($major)));
 			}
 		);
 		

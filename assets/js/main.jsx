@@ -34,7 +34,7 @@ var github_app = {
 								var owner_name = this.owner_name;
 								var repos_name = this.repos_name;
 								var hrefUser = function(){
-									window.location = GITHUB_APP_BASE_PATH + '/repos/statistics/contributors/'+owner_name+'/'+repos_name;/**应该跳转到创建用户的界面**/
+									window.location = GITHUB_APP_BASE_PATH + '/repos/statistics/commitActivity/'+owner_name+'/'+repos_name;/**应该跳转到创建用户的界面**/
 								};
 								if(idx===1) {
 									return (<td key={idx}><a title={this[field]}  onClick={hrefUser}>{this[field]}</a></td>);
@@ -72,7 +72,7 @@ var github_app = {
 						</thead>
 						<tbody>
 							{this.props.repos_list.map(function(repos, idx){
-								return <UserInfo key={idx} repos={repos} fields={this.props.fields}/>
+								return <UserInfo key={idx} repos={repos} fields={this.props.fields}/>/*key={idx}写成key={repos.repos_name}导致UserInfo中不能读出**/
 							}.bind(this))}
 						</tbody>
 					</table>
@@ -206,7 +206,6 @@ var github_app = {
 					form[d.field].focus();
 				}else{
 					$message.attr('class', 'alert alert-success');
-					
 					$message.text('Your profile is updated succssfully.');
 					$message.fadeIn();
 				}
